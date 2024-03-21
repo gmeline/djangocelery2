@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Index{% endblock %}</title>
+</head>
+<body>
+    {% block content %}
+        <H1>Hello, lancez vos test de ping et de traceroute ici !</H1>
+        <ul>
+            <H2>Voici la liste des serveurs :</H2>
+            <select name="server">
+                <p>Choisir le serveur</p>
+<!--Menu déroulant des serveurs-->
+                {% for server in liste_server %}
+                  <option value="{{ server.id }}">{{ server.name }} | {{ server.ip_adress }}</option>
+                {% empty %}
+                  <option value="" disabled selected>Aucun serveur disponible</option>
+                {% endfor %}
+            </select>
+            <H2>Voici la liste des commandes :</H2>
+<!--Menu déroulant des commandes-->
+            <select name="command" id="command">
+                {% for command in liste_command %}
+                    <option value="{{ command.id }}">{{ command.name }}</option>
+                {% empty %}
+                    <option value="" disabled selected>Aucune commande disponible</option>
+                {% endfor %}
+            </select>
+            <H2>Entrez l'adresse IP :</H2>
+<!--Entrer de l'adresse IP-->
+            <form method="post">
+                {% csrf_token %}
+                <label for="ip_address">Adresse IP :</label>
+                <input type="text" id="ip_address" name="ip_address">
+            </form>
+<!--Bouton pour lancer les tests-->
+            <div class="launch-test">
+                <br><br>
+                <a href="{% url 'index' %}"><button class="launch">Launch Test</button></a>
+            </div>
+        </ul>
+    {% endblock %}
+</body>
+</html>
